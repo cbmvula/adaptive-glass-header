@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-tone="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light dark">
+  <title>Adaptive Glass Header — Mobile Reference</title>
+  <link rel="icon" href="assets/logo/nordform-dark.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/geist-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/base.css?v=1">
+  <link rel="stylesheet" href="css/panes.css?v=1">
+  <link rel="stylesheet" href="css/mobile.css?v=1">
+  <link rel="stylesheet" href="css/glass.css?v=1">
+  <script defer src="js/palette.js?v=1"></script>
+  <script defer src="js/motion.js?v=1"></script>
+  <script defer src="js/mobile-state.js?v=1"></script>
+  <script defer src="js/search-index.js?v=1"></script>
+  <script defer src="js/mobile-header.js?v=1"></script>
+  <script defer src="js/stage.js?v=1"></script>
+  <script defer src="js/background.js?v=1"></script>
+  <script defer src="js/mobile-main.js?v=1"></script>
+</head>
+<body class="ghm-body">
+  <main class="ghm-stage">
+    <h1 class="visually-hidden">Adaptive mobile glass header reference implementation</h1>
+
+    <div class="ghm-device">
+      <div class="gh-diffusion" aria-hidden="true">
+        <span class="gh-blob gh-blob--1"></span>
+        <span class="gh-blob gh-blob--2"></span>
+        <span class="gh-blob gh-blob--3"></span>
+        <span class="gh-blob gh-blob--4"></span>
+        <span class="gh-blob gh-blob--5"></span>
+      </div>
+
+      <div class="gh-float ghm-float">
+        <header class="ghm-header" data-motion="standard" data-account="signed-out" lang="en" inert>
+          <div class="ghm-bar">
+            <button class="ghm-burger" type="button" aria-expanded="false" aria-controls="ghm-sheet" aria-label="Open menu">
+              <span class="ghm-burger__line" aria-hidden="true"></span>
+              <span class="ghm-burger__line" aria-hidden="true"></span>
+            </button>
+            <a class="ghm-brand" href="#home" aria-label="Nordform — Home">
+              <img class="ghm-logo" src="assets/logo/nordform-dark.svg" width="132" height="42" alt="Nordform" decoding="async">
+            </a>
+            <div class="ghm-actions">
+              <button class="ghm-icon ghm-search" type="button" data-open-view="search" aria-expanded="false" aria-controls="ghm-sheet" aria-label="Search">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+              <button class="ghm-icon ghm-cart" type="button" data-open-view="cart" aria-expanded="false" aria-controls="ghm-sheet" aria-label="Cart">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2.4l2.3 11h10.4l1.9-8H6.6"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="ghm-sheet" id="ghm-sheet" inert>
+            <div class="ghm-view ghm-view--menu" data-view="menu">
+              <div class="ghm-utility">
+                <div class="ghm-pop" data-pop="language">
+                  <button class="ghm-pop__toggle ghm-lang" type="button" data-popover-toggle="language" aria-expanded="false" aria-controls="ghm-pop-language" aria-label="Language: English"><span data-lang-current>EN</span></button>
+                  <ul class="ghm-pop__list" id="ghm-pop-language" data-popover="language" inert>
+                    <li><button type="button" data-language="en" lang="en" aria-label="English">EN</button></li>
+                    <li><button type="button" data-language="pl" lang="pl" aria-label="Polish">PL</button></li>
+                    <li><button type="button" data-language="de" lang="de" aria-label="German">DE</button></li>
+                  </ul>
+                </div>
+                <div class="ghm-pop" data-pop="account">
+                  <button class="ghm-pop__toggle ghm-icon" type="button" data-popover-toggle="account" aria-expanded="false" aria-controls="ghm-pop-account" aria-label="Account">
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span class="ghm-dot" aria-hidden="true"></span>
+                  </button>
+                  <ul class="ghm-pop__list" id="ghm-pop-account" data-popover="account" inert>
+                    <li data-when="signed-out"><button type="button" data-account="sign-in">Sign in</button></li>
+                    <li data-when="signed-out"><button type="button" data-account="register">Create account</button></li>
+                    <li data-when="signed-in"><button type="button" data-account="account">My account</button></li>
+                    <li data-when="signed-in"><button type="button" data-account="orders">Orders</button></li>
+                    <li data-when="signed-in"><button type="button" data-account="saved">Saved</button></li>
+                    <li data-when="signed-in"><button type="button" data-account="sign-out">Sign out</button></li>
+                  </ul>
+                </div>
+              </div>
+
+              <nav class="ghm-nav" aria-label="Main navigation">
+                <ul class="ghm-items">
+                  <li class="ghm-item" data-section="products">
+                    <button class="ghm-item__toggle" type="button" data-section="products" aria-expanded="false" aria-controls="ghm-panel-products"><span data-label="products">Shop</span></button>
+                    <div class="ghm-item__panel" id="ghm-panel-products" inert>
+                      <div class="ghm-item__inner">
+                        <ul class="ghm-cards" aria-label="Shop">
+                          <li><a class="ghm-card" href="#shop/in-stock"><img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>In stock</span></a></li>
+                          <li><a class="ghm-card" href="#shop/doors"><img src="assets/scenes/shop-2-doors.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Doors</span></a></li>
+                          <li><a class="ghm-card" href="#shop/frames"><img src="assets/scenes/shop-3-frames.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Frames</span></a></li>
+                          <li><a class="ghm-card" href="#shop/hardware"><img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Hardware</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="ghm-item" data-section="catalogues">
+                    <button class="ghm-item__toggle" type="button" data-section="catalogues" aria-expanded="false" aria-controls="ghm-panel-catalogues"><span data-label="catalogues">Catalogues</span></button>
+                    <div class="ghm-item__panel" id="ghm-panel-catalogues" inert>
+                      <div class="ghm-item__inner">
+                        <ul class="ghm-cards" aria-label="Catalogues">
+                          <li><a class="ghm-card" href="#catalogues/kron"><img src="assets/scenes/cat-1-kron.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span><img class="ghm-card__logo" src="assets/brands/brand-kron.svg" width="210" height="64" alt="KRON" decoding="async"></span></a></li>
+                          <li><a class="ghm-card" href="#catalogues/velde"><img src="assets/scenes/cat-2-velde.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span><img class="ghm-card__logo" src="assets/brands/brand-velde.svg" width="260" height="52" alt="VELDE" decoding="async"></span></a></li>
+                          <li><a class="ghm-card" href="#catalogues/sora"><img src="assets/scenes/cat-3-sora.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span><img class="ghm-card__logo" src="assets/brands/brand-sora.svg" width="240" height="68" alt="SORA" decoding="async"></span></a></li>
+                          <li><a class="ghm-card" href="#catalogues/lind"><img src="assets/scenes/cat-4-lind.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span><img class="ghm-card__logo" src="assets/brands/brand-lind.svg" width="240" height="48" alt="LIND" decoding="async"></span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="ghm-item" data-section="advice">
+                    <button class="ghm-item__toggle" type="button" data-section="advice" aria-expanded="false" aria-controls="ghm-panel-advice"><span data-label="advice">Guides</span></button>
+                    <div class="ghm-item__panel" id="ghm-panel-advice" inert>
+                      <div class="ghm-item__inner">
+                        <ul class="ghm-cards" aria-label="Guides">
+                          <li><a class="ghm-card" href="#guides/finishes"><img src="assets/scenes/guide-1-finishes.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Sage &amp; smoked oak</span></a></li>
+                          <li><a class="ghm-card" href="#guides/proportions"><img src="assets/scenes/guide-2-proportions.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Leaf proportions</span></a></li>
+                          <li><a class="ghm-card" href="#guides/mitre"><img src="assets/scenes/guide-3-mitre.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Mitre joinery</span></a></li>
+                          <li><a class="ghm-card" href="#guides/daylight"><img src="assets/scenes/guide-4-daylight.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Warm white lacquer</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="ghm-item" data-section="services">
+                    <button class="ghm-item__toggle" type="button" data-section="services" aria-expanded="false" aria-controls="ghm-panel-services"><span data-label="services">Services</span></button>
+                    <div class="ghm-item__panel" id="ghm-panel-services" inert>
+                      <div class="ghm-item__inner">
+                        <ul class="ghm-cards" aria-label="Services">
+                          <li><a class="ghm-card" href="#services/measure"><img src="assets/scenes/service-1-measure.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Site measurement</span></a></li>
+                          <li><a class="ghm-card" href="#services/fitting"><img src="assets/scenes/service-2-install.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Certified fitting</span></a></li>
+                          <li><a class="ghm-card" href="#services/delivery"><img src="assets/scenes/service-3-delivery.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Vertical transit</span></a></li>
+                          <li><a class="ghm-card" href="#services/warranty"><img src="assets/scenes/service-4-care.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Care &amp; warranty</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </nav>
+
+              <footer class="ghm-footer">
+                <div class="ghm-footer__cols">
+                  <div class="ghm-footer__col">
+                    <p class="ghm-footer__label">Contact</p>
+                    <a href="#contact/phone">+44 20 7946 0192</a>
+                    <a href="#contact/email">studio@nordform.example</a>
+                    <p>Daily 08:00–20:00</p>
+                  </div>
+                  <div class="ghm-footer__col">
+                    <p class="ghm-footer__label">Showroom</p>
+                    <address>14 Alder Lane<br>2100 Copenhagen</address>
+                    <p>Mon–Fri 9–17, Sat 10–14</p>
+                  </div>
+                </div>
+                <nav class="ghm-footer__legal" aria-label="Information">
+                  <a href="#legal/terms">Terms</a>
+                  <a href="#legal/privacy">Privacy</a>
+                  <a href="#legal/cookies">Cookies</a>
+                  <a href="#contact">Contact</a>
+                </nav>
+              </footer>
+            </div>
+
+            <div class="ghm-view ghm-view--search" data-view="search" inert>
+              <form class="ghm-search-form ghm-rise" data-search-form role="search" novalidate>
+                <label class="ghm-search__field">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                  <span class="visually-hidden">Search Nordform</span>
+                  <input type="search" maxlength="80" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="What are you looking for?" data-search-input aria-describedby="ghm-search-status">
+                </label>
+              </form>
+              <div class="ghm-search__list ghm-rise">
+                <h2 class="ghm-subhead" data-search-heading>Popular searches</h2>
+                <ul class="ghm-links" data-search-popular>
+                  <li><a href="#shop/concealed">Concealed frames</a></li>
+                  <li><a href="#shop/glass">Glass loft doors</a></li>
+                  <li><a href="#shop/exterior">Exterior doors</a></li>
+                  <li><a href="#shop/acoustic">Acoustic doors</a></li>
+                  <li><a href="#shop/hardware">Lever hardware</a></li>
+                </ul>
+                <ul class="ghm-links" data-search-results hidden></ul>
+                <p class="ghm-search__status" id="ghm-search-status" data-search-status role="status"></p>
+              </div>
+              <div class="ghm-rise">
+                <h2 class="ghm-subhead">Departments</h2>
+                <ul class="ghm-cards ghm-cards--static" aria-label="Departments">
+                  <li><a class="ghm-card" href="#shop/in-stock"><img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>In stock</span></a></li>
+                  <li><a class="ghm-card" href="#shop/doors"><img src="assets/scenes/shop-2-doors.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Doors</span></a></li>
+                  <li><a class="ghm-card" href="#shop/frames"><img src="assets/scenes/shop-3-frames.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Frames</span></a></li>
+                  <li><a class="ghm-card" href="#shop/hardware"><img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Hardware</span></a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="ghm-view ghm-view--cart" data-view="cart" inert>
+              <div class="ghm-empty ghm-rise">
+                <h2 class="ghm-empty__title">Your cart is empty</h2>
+                <p>Add doors, frames, or lever hardware to review your project order here.</p>
+                <a class="ghm-cta" href="#shop">Browse shop</a>
+              </div>
+              <ul class="ghm-promises ghm-rise">
+                <li>On-site laser measurement</li>
+                <li>Vertical room-to-room delivery</li>
+                <li>Five-year fitting warranty</li>
+              </ul>
+              <div class="ghm-rise">
+                <h2 class="ghm-subhead">Suggested collections</h2>
+                <ul class="ghm-cards ghm-cards--static" aria-label="Suggested collections">
+                  <li><a class="ghm-card" href="#shop/in-stock"><img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>In stock</span></a></li>
+                  <li><a class="ghm-card" href="#shop/doors"><img src="assets/scenes/shop-2-doors.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Doors</span></a></li>
+                  <li><a class="ghm-card" href="#shop/hardware"><img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="" loading="lazy" decoding="async"><span>Hardware</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    </div>
+
+    <div class="gh-controls" role="group" aria-label="Backdrop controls">
+      <div class="gh-switches">
+        <div class="gh-pager" data-bg-tones role="group" aria-label="Backdrop tone">
+          <button class="gh-pager__option" type="button" data-bg-tone="light" aria-pressed="false">Light</button>
+          <button class="gh-pager__option" type="button" data-bg-tone="dark" aria-pressed="true">Dark</button>
+        </div>
+        <a class="gh-view-link" href="index.html">Desktop view</a>
+      </div>
+      <div class="gh-control">
+        <label class="gh-control__label" for="gh-colour">Colour</label>
+        <input class="gh-control__range" id="gh-colour" type="range" min="0" max="100" step="1" value="50" aria-valuetext="Balanced">
+        <div class="gh-control__scale" aria-hidden="true"><span>Cold</span><span>Warm</span></div>
+      </div>
+      <div class="gh-control">
+        <label class="gh-control__label" for="gh-speed">Speed</label>
+        <input class="gh-control__range" id="gh-speed" type="range" min="0" max="100" step="1" value="50" aria-valuetext="Slow">
+        <div class="gh-control__scale" aria-hidden="true"><span>Still</span><span>Slow</span><span>Faster</span></div>
+      </div>
+      <p class="gh-controls__note" id="gh-speed-note" role="status" hidden>Motion is off in your system settings, so the background stays still.</p>
+    </div>
+
+    <p class="visually-hidden" id="gh-live" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

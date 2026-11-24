@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en" data-tone="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self'; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light dark">
+  <title>Adaptive Glass Header — Desktop Reference</title>
+  <link rel="icon" href="assets/logo/nordform-dark.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/geist-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/geist-latin-ext-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/base.css?v=1">
+  <link rel="stylesheet" href="css/header.css?v=1">
+  <link rel="stylesheet" href="css/menu.css?v=1">
+  <link rel="stylesheet" href="css/panes.css?v=1">
+  <link rel="stylesheet" href="css/catalogues.css?v=1">
+  <link rel="stylesheet" href="css/glass.css?v=1">
+  <script defer src="js/palette.js?v=1"></script>
+  <script defer src="js/motion.js?v=1"></script>
+  <script defer src="js/menu-state.js?v=1"></script>
+  <script defer src="js/search-index.js?v=1"></script>
+  <script defer src="js/header-menu.js?v=1"></script>
+  <script defer src="js/stage.js?v=1"></script>
+  <script defer src="js/background.js?v=1"></script>
+  <script defer src="js/main.js?v=1"></script>
+</head>
+<body>
+  <div class="gh-diffusion" aria-hidden="true">
+    <span class="gh-blob gh-blob--1"></span>
+    <span class="gh-blob gh-blob--2"></span>
+    <span class="gh-blob gh-blob--3"></span>
+    <span class="gh-blob gh-blob--4"></span>
+    <span class="gh-blob gh-blob--5"></span>
+  </div>
+
+  <main class="gh-stage">
+    <h1 class="visually-hidden">Adaptive glass header reference implementation</h1>
+
+    <div class="gh-slot">
+      <div id="gh-header-shell" class="gh-shell gh-float">
+        <header class="gh-header" data-view="closed" data-motion="standard" aria-label="Primary site header" inert>
+          <div class="header-bar">
+            <div class="header-left">
+              <nav class="desktop-nav" aria-label="Main navigation">
+                <span class="gh-menu-entry" data-menu="products">
+                  <button class="gh-menu-destination" id="nav-products" type="button" data-section="products" aria-expanded="false" aria-controls="menu-products">Shop</button>
+                </span>
+                <span class="gh-menu-entry" data-menu="catalogues">
+                  <button class="gh-menu-destination" id="nav-catalogues" type="button" data-section="catalogues" aria-expanded="false" aria-controls="menu-catalogues">Catalogues</button>
+                </span>
+                <span class="gh-menu-entry" data-menu="advice">
+                  <button class="gh-menu-destination" id="nav-advice" type="button" data-section="advice" aria-expanded="false" aria-controls="menu-advice">Guides</button>
+                </span>
+                <span class="gh-menu-entry" data-menu="services">
+                  <button class="gh-menu-destination" id="nav-services" type="button" data-section="services" aria-expanded="false" aria-controls="menu-services">Services</button>
+                </span>
+                <div class="desktop-nav-pill" aria-hidden="true">
+                  <span class="gh-menu-ghost">Shop</span>
+                  <span class="gh-menu-ghost">Catalogues</span>
+                  <span class="gh-menu-ghost">Guides</span>
+                  <span class="gh-menu-ghost">Services</span>
+                </div>
+              </nav>
+            </div>
+
+            <a class="brand" href="#home" aria-label="Nordform — Home">
+              <img class="brand-logo" src="assets/logo/nordform-dark.svg" width="132" height="42" alt="Nordform" decoding="async">
+            </a>
+
+            <form class="gh-barsearch" data-search-form role="search" novalidate inert>
+              <label class="visually-hidden" for="gh-search-input">Search Nordform destinations</label>
+              <input class="gh-barsearch__input" id="gh-search-input" type="search" maxlength="80" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Search doors, frames, hardware, catalogues…" data-search-input aria-controls="menu-search" aria-describedby="gh-search-status">
+            </form>
+
+            <div class="header-actions">
+              <button class="icon-button desktop-search" type="button" data-section="search" aria-expanded="false" aria-controls="menu-search" aria-label="Search">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+              <button class="icon-button account-link" type="button" data-section="account" aria-expanded="false" aria-controls="menu-account" aria-label="Account">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+              </button>
+              <button class="icon-button cart-link" type="button" data-section="cart" aria-expanded="false" aria-controls="menu-cart" aria-label="Cart">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2.4l2.3 11h10.4l1.9-8H6.6"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+              </button>
+              <button class="icon-button header-close" type="button" aria-label="Close header menu">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="header-content" id="header-content" inert>
+            <section class="menu-view" aria-label="Header panels">
+
+              <!-- PANE 1: SHOP -->
+              <div class="menu-pane menu-pane--products" id="menu-products" data-pane="products" role="group" aria-labelledby="nav-products" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-depts">
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/in-stock">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="Architectural oak and plaster doors standing ready in studio stock" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">In stock</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/doors">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/shop-2-doors.svg" width="1200" height="675" alt="Row of minimalist timber and painted interior doors" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Doors</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/frames">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/shop-3-frames.svg" width="1200" height="675" alt="Layered timber and anodized aluminum door frames" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Frames</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/hardware">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="Matte black and brushed brass architectural lever handles" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Hardware</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div class="gh-menu-group">
+                      <a class="gh-menu-heading" href="#shop">Shop</a>
+                      <a class="gh-nav-link" href="#shop/interior">Interior doors</a>
+                      <a class="gh-nav-link" href="#shop/exterior">Exterior doors</a>
+                      <a class="gh-nav-link" href="#shop/concealed">Concealed frames</a>
+                      <a class="gh-nav-link" href="#shop/glass">Glass loft doors</a>
+                      <a class="gh-nav-link" href="#shop/acoustic">Acoustic doors</a>
+                      <a class="gh-nav-link" href="#shop/technical">Technical doors</a>
+                      <a class="gh-nav-link" href="#shop/frames">Frames &amp; hardware</a>
+                    </div>
+                    <a class="gh-all-products-link" href="#shop/all">View all products</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 2: CATALOGUES -->
+              <div class="menu-pane menu-pane--catalogues" id="menu-catalogues" data-pane="catalogues" role="group" aria-labelledby="nav-catalogues" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-depts">
+                    <div class="gh-dept" data-catalogue="kron">
+                      <a class="gh-dept__link gh-reveal" href="#catalogues/kron">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/cat-1-kron.svg" width="1200" height="675" alt="Pale ash flush door with thin aluminum inlays in a light plaster wall" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title"><img class="gh-dept__logo" src="assets/brands/brand-kron.svg" width="210" height="64" alt="" decoding="async"><span class="visually-hidden">KRON 2026</span></span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Open PDF</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept" data-catalogue="velde">
+                      <a class="gh-dept__link gh-reveal" href="#catalogues/velde">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/cat-2-velde.svg" width="1200" height="675" alt="Cream panelled interior door set against a deep charcoal plaster wall" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title"><img class="gh-dept__logo" src="assets/brands/brand-velde.svg" width="260" height="52" alt="" decoding="async"><span class="visually-hidden">VELDE 2026</span></span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Open PDF</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept" data-catalogue="sora">
+                      <a class="gh-dept__link gh-reveal" href="#catalogues/sora">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/cat-3-sora.svg" width="1200" height="675" alt="Slatted cedar entry door with full-height dark pull bar in travertine stone" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title"><img class="gh-dept__logo" src="assets/brands/brand-sora.svg" width="240" height="68" alt="" decoding="async"><span class="visually-hidden">SORA 2026</span></span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Open PDF</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept" data-catalogue="lind">
+                      <a class="gh-dept__link gh-reveal" href="#catalogues/lind">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/cat-4-lind.svg" width="1200" height="675" alt="Matte forest-green steel entry door with vertical glazed sidelight" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title"><img class="gh-dept__logo" src="assets/brands/brand-lind.svg" width="240" height="48" alt="" decoding="async"><span class="visually-hidden">LIND 2026</span></span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Open PDF</span></span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div class="gh-menu-group">
+                      <a class="gh-menu-heading" href="#catalogues">Catalogues</a>
+                      <a class="gh-nav-link" href="#catalogues/kron">KRON</a>
+                      <a class="gh-nav-link" href="#catalogues/velde">VELDE</a>
+                      <a class="gh-nav-link" href="#catalogues/sora">SORA</a>
+                      <a class="gh-nav-link" href="#catalogues/lind">LIND</a>
+                      <a class="gh-nav-link" href="#catalogues/holm">HOLM Atelier</a>
+                      <a class="gh-nav-link" href="#catalogues/tova">TOVA Architectural</a>
+                      <a class="gh-nav-link" href="#catalogues/alva">ALVA Metal</a>
+                      <a class="gh-nav-link" href="#catalogues/bren">BREN Timber</a>
+                      <a class="gh-nav-link" href="#catalogues/mira">MIRA Glass</a>
+                    </div>
+                    <a class="gh-all-products-link" href="#catalogues/all">All 2026 editions</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 3: GUIDES -->
+              <div class="menu-pane menu-pane--advice" id="menu-advice" data-pane="advice" role="group" aria-labelledby="nav-advice" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-depts">
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#guides/finishes">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/guide-1-finishes.svg" width="1200" height="675" alt="Architectural material palette with sage, oak, warm white, and slate swatches" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Pairing sage &amp; smoked oak</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Read</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#guides/proportions">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/guide-2-proportions.svg" width="1200" height="675" alt="Architectural elevation showing full-height door proportions" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Full-height leaf proportions</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Read</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#guides/mitre">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/guide-3-mitre.svg" width="1200" height="675" alt="Close-up diagram of a 45-degree mitred timber door frame corner" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Mitre joints on adjustable frames</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Read</span></span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#guides/daylight">
+                        <div class="gh-dept__thumb">
+                          <img src="assets/scenes/guide-4-daylight.svg" width="1200" height="675" alt="Matte white flush door catching soft oblique daylight" decoding="async">
+                        </div>
+                        <span class="gh-dept__caption">
+                          <span class="gh-dept__title">Choosing warm white lacquer</span>
+                          <span class="gh-dept__cue" aria-hidden="true"><span>Read</span></span>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div class="gh-menu-group">
+                      <a class="gh-menu-heading" href="#guides">Guides</a>
+                      <a class="gh-nav-link" href="#guides/handing">Left vs right door handing</a>
+                      <a class="gh-nav-link" href="#guides/rough-openings">Rough opening tolerances</a>
+                      <a class="gh-nav-link" href="#guides/glossary">Joinery specification glossary</a>
+                      <a class="gh-nav-link" href="#guides/faq">Frequently asked questions</a>
+                    </div>
+                    <a class="gh-all-products-link" href="#guides/all">All technical guides</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 4: SERVICES -->
+              <div class="menu-pane menu-pane--services" id="menu-services" data-pane="services" role="group" aria-labelledby="nav-services" inert>
+                <div class="gh-services5">
+                  <div class="gh-service-visual gh-reveal" aria-hidden="true">
+                    <figure class="gh-service-frame" data-service="01">
+                      <img src="assets/scenes/service-1-measure.svg" width="1200" height="675" alt="Laser measurement crosshairs aligned on a structural wall opening" decoding="async">
+                      <figcaption>Site measurement</figcaption>
+                    </figure>
+                    <figure class="gh-service-frame" data-service="02">
+                      <img src="assets/scenes/service-2-install.svg" width="1200" height="675" alt="Precision concealed hinge and jamb alignment diagram" decoding="async">
+                      <figcaption>Certified fitting</figcaption>
+                    </figure>
+                    <figure class="gh-service-frame" data-service="03">
+                      <img src="assets/scenes/service-3-delivery.svg" width="1200" height="675" alt="Vertical padded transport rack holding three architectural door panels" decoding="async">
+                      <figcaption>Vertical transit</figcaption>
+                    </figure>
+                    <figure class="gh-service-frame" data-service="04">
+                      <img src="assets/scenes/service-4-care.svg" width="1200" height="675" alt="Minimalist hardware calibration and seasonal hinge care schematic" decoding="async">
+                      <figcaption>Care &amp; warranty</figcaption>
+                    </figure>
+                  </div>
+                  <div class="gh-service-card gh-reveal" data-service="01">
+                    <span class="gh-service-num" aria-hidden="true">01</span>
+                    <h3>Site<br>measurement</h3>
+                    <p>On-site laser survey, wall thickness checks, frame depth sizing, and swing direction verification.</p>
+                    <a class="gh-service-action" href="#services/measure">Book survey</a>
+                  </div>
+                  <div class="gh-service-card gh-reveal" data-service="02">
+                    <span class="gh-service-num" aria-hidden="true">02</span>
+                    <h3>Certified<br>fitting</h3>
+                    <p>Dedicated joinery crews handling removal of old frames, flush installation, and concealed hinge tuning.</p>
+                    <a class="gh-service-action" href="#services/fitting">Request fitting</a>
+                  </div>
+                  <div class="gh-service-card gh-reveal" data-service="03">
+                    <span class="gh-service-num" aria-hidden="true">03</span>
+                    <h3>Vertical<br>transit</h3>
+                    <p>Dedicated upright transport racks built for oversized leaves, delivered directly to the room.</p>
+                    <a class="gh-service-action" href="#services/delivery">Delivery details</a>
+                  </div>
+                  <div class="gh-service-card gh-reveal" data-service="04">
+                    <span class="gh-service-num" aria-hidden="true">04</span>
+                    <h3>Care &amp;<br>warranty</h3>
+                    <p>Five-year installation cover, seasonal latch calibration, and direct spare hardware support.</p>
+                    <a class="gh-service-action" href="#services/warranty">Warranty terms</a>
+                  </div>
+                  <div class="gh-services-contact-strip gh-reveal">
+                    <div class="gh-contact-info">
+                      <span class="gh-contact-label">Nordform studio advisers are available daily:</span>
+                      <a class="gh-phone-link" href="#contact/phone">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 2 5-3 2a15 15 0 0 0 7 7l2-3 5 2v4c-9 3-20-8-17-17Z"/></svg>
+                        <strong>+44 20 7946 0192</strong>
+                        <small>08:00–20:00</small>
+                      </a>
+                    </div>
+                    <a class="gh-btn-outline" href="#contact">Contact studio</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 5: SEARCH -->
+              <div class="menu-pane menu-pane--search" id="menu-search" data-pane="search" role="group" aria-label="Search" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-depts">
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/in-stock">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="Ready-to-ship architectural doors" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">In stock</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/concealed">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-3-frames.svg" width="1200" height="675" alt="Concealed architectural door frames" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">Concealed</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/hardware">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="Brushed brass and matte black lever handles" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">Hardware</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#catalogues">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/cat-1-kron.svg" width="1200" height="675" alt="2026 architectural joinery catalogues" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">2026 PDFs</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div>
+                      <p class="gh-search__status" id="gh-search-status" data-search-status role="status"></p>
+                      <h3 class="gh-search__heading" data-search-heading>Popular searches</h3>
+                      <ul class="gh-search__results" data-search-popular>
+                        <li><button class="gh-nav-link gh-query" type="button" data-query="Concealed">Concealed frames</button></li>
+                        <li><button class="gh-nav-link gh-query" type="button" data-query="Glass">Glass loft doors</button></li>
+                        <li><button class="gh-nav-link gh-query" type="button" data-query="Hardware">Lever hardware</button></li>
+                        <li><button class="gh-nav-link gh-query" type="button" data-query="KRON">KRON 2026</button></li>
+                        <li><button class="gh-nav-link gh-query" type="button" data-query="measurement">Site measurement</button></li>
+                      </ul>
+                      <ul class="gh-search__results" data-search-results hidden></ul>
+                    </div>
+                    <a class="gh-all-products-link" href="#shop/all">Browse all destinations</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 6: ACCOUNT -->
+              <div class="menu-pane menu-pane--account" id="menu-account" data-pane="account" role="group" aria-label="Account" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-feature gh-reveal">
+                    <img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="" decoding="async">
+                    <div class="gh-feature__copy" data-account-view="guest">
+                      <h3>Your Nordform account</h3>
+                      <p>Track project schedules, save door specifications, and return to studio quotes.</p>
+                      <div class="gh-feature__actions">
+                        <button class="gh-pill gh-pill--solid" type="button" data-account-action="sign-in">Sign in (demo)</button>
+                        <a class="gh-pill" href="#account/register">Create account</a>
+                      </div>
+                    </div>
+                    <div class="gh-feature__copy" data-account-view="member" hidden>
+                      <h3>Welcome back</h3>
+                      <p>Saved specifications and active project schedules are ready in your studio workspace.</p>
+                      <div class="gh-feature__actions">
+                        <a class="gh-pill gh-pill--solid" href="#account/dashboard">Open workspace</a>
+                        <button class="gh-pill" type="button" data-account-action="sign-out">Sign out</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div class="gh-menu-group">
+                      <a class="gh-menu-heading" href="#account">Account</a>
+                      <a class="gh-nav-link" href="#account/orders">Orders &amp; schedules</a>
+                      <a class="gh-nav-link" href="#account/saved">Saved finishes</a>
+                      <a class="gh-nav-link" href="#account/addresses">Project sites</a>
+                      <a class="gh-nav-link" href="#account/support">Aftercare support</a>
+                    </div>
+                    <a class="gh-all-products-link" href="#contact/phone">Support: +44 20 7946 0192</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE 7: CART -->
+              <div class="menu-pane menu-pane--cart" id="menu-cart" data-pane="cart" role="group" aria-label="Cart" inert>
+                <div class="gh-shop-layout">
+                  <div class="gh-depts">
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/in-stock">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-1-in-stock.svg" width="1200" height="675" alt="In-stock smoked oak and plaster doors" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">In stock</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/doors">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-2-doors.svg" width="1200" height="675" alt="Interior architectural door series" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">Interior series</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/frames">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-3-frames.svg" width="1200" height="675" alt="Flush aluminum frames" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">Flush frames</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                    <div class="gh-dept">
+                      <a class="gh-dept__link gh-reveal" href="#shop/hardware">
+                        <div class="gh-dept__thumb"><img src="assets/scenes/shop-4-hardware.svg" width="1200" height="675" alt="Brushed brass hardware sets" decoding="async"></div>
+                        <span class="gh-dept__caption"><span class="gh-dept__title">Hardware sets</span><span class="gh-dept__cue" aria-hidden="true"><span>Explore</span></span></span>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="gh-shop-sidebar">
+                    <div>
+                      <a class="gh-menu-heading" href="#cart">Cart</a>
+                      <p class="gh-cart__note">Your cart is empty. Add sample doors, frames, or lever sets to review quantities here.</p>
+                    </div>
+                    <a class="gh-all-products-link" href="#shop">Continue to shop</a>
+                  </div>
+                </div>
+              </div>
+
+            </section>
+          </div>
+        </header>
+      </div>
+    </div>
+
+    <div class="gh-controls" role="group" aria-label="Backdrop controls">
+      <div class="gh-switches">
+        <div class="gh-pager" data-bg-tones role="group" aria-label="Backdrop tone">
+          <button class="gh-pager__option" type="button" data-bg-tone="light" aria-pressed="false">Light</button>
+          <button class="gh-pager__option" type="button" data-bg-tone="dark" aria-pressed="true">Dark</button>
+        </div>
+        <a class="gh-view-link" href="mobile.html">Mobile view</a>
+      </div>
+      <div class="gh-control">
+        <label class="gh-control__label" for="gh-colour">Colour</label>
+        <input class="gh-control__range" id="gh-colour" type="range" min="0" max="100" step="1" value="50" aria-valuetext="Balanced">
+        <div class="gh-control__scale" aria-hidden="true"><span>Cold</span><span>Warm</span></div>
+      </div>
+      <div class="gh-control">
+        <label class="gh-control__label" for="gh-speed">Speed</label>
+        <input class="gh-control__range" id="gh-speed" type="range" min="0" max="100" step="1" value="50" aria-valuetext="Slow">
+        <div class="gh-control__scale" aria-hidden="true"><span>Still</span><span>Slow</span><span>Faster</span></div>
+      </div>
+      <p class="gh-controls__note" id="gh-speed-note" role="status" hidden>Motion is off in your system settings, so the background stays still.</p>
+    </div>
+
+    <p class="visually-hidden" id="gh-live" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
