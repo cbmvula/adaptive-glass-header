@@ -1,0 +1,15 @@
+/* Borderless frosted glass finish: no rim, no sheen, no hairline.
+   Swaps to the white wordmark on the darker smoke sheet over light backgrounds. */
+
+.gh-header {
+  box-shadow: var(--gh-glass-shadow);
+}
+
+.gh-header.is-open {
+  box-shadow: var(--gh-glass-shadow-open);
+}
+
+:root[data-tone="light"] .brand-logo,
+:root[data-tone="light"] .ghm-logo {
+  content: url("../assets/logo/nordform-light.svg");
+}

@@ -1,0 +1,331 @@
+/* Desktop mega-menu panes: staggered item reveal, 4-tile flex-grow accordion row,
+   centered captions with subtle hover cues, and right-hand text columns. */
+
+.header-content {
+  position: absolute;
+  top: var(--gh-bar);
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: calc(var(--gh-open-frame-height) - var(--gh-bar));
+  padding: 0 var(--gh-inset) var(--gh-inset);
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear 220ms;
+}
+
+.gh-header.is-open .header-content {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.menu-view {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  height: 100%;
+}
+
+/* All panes occupy one grid cell so switching can be retargeted mid-flight. */
+.menu-pane {
+  grid-area: 1 / 1;
+  align-self: start;
+  min-width: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 130ms;
+}
+
+.gh-header.is-open .menu-pane.is-active {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.menu-pane :is(h3, p) {
+  margin: 0;
+}
+
+/* ---------- Staggered reveal (opacity + transform only) ---------- */
+
+.gh-reveal,
+.gh-menu-group > a,
+.gh-shop-sidebar > .gh-all-products-link {
+  --gh-reveal-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(48px, 0, 0);
+  transition: opacity 160ms ease-in, transform 160ms ease-in, background-color 160ms ease, color 160ms ease;
+}
+
+.gh-header.is-open .menu-pane.is-active .gh-reveal,
+.gh-header.is-open .menu-pane.is-active .gh-menu-group > a,
+.gh-header.is-open .menu-pane.is-active .gh-shop-sidebar > .gh-all-products-link {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 500ms ease-out var(--gh-reveal-delay),
+    transform 600ms var(--gh-menu-ease) var(--gh-reveal-delay),
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.gh-menu-group > a:nth-child(1) { --gh-reveal-delay: 60ms; }
+.gh-menu-group > a:nth-child(2) { --gh-reveal-delay: 95ms; }
+.gh-menu-group > a:nth-child(3) { --gh-reveal-delay: 130ms; }
+.gh-menu-group > a:nth-child(4) { --gh-reveal-delay: 165ms; }
+.gh-menu-group > a:nth-child(5) { --gh-reveal-delay: 200ms; }
+.gh-menu-group > a:nth-child(6) { --gh-reveal-delay: 235ms; }
+.gh-menu-group > a:nth-child(7) { --gh-reveal-delay: 270ms; }
+.gh-menu-group > a:nth-child(8) { --gh-reveal-delay: 305ms; }
+.gh-shop-sidebar > .gh-all-products-link { --gh-reveal-delay: 340ms; }
+
+.gh-reveal:nth-child(1) { --gh-reveal-delay: 120ms; }
+.gh-reveal:nth-child(2) { --gh-reveal-delay: 190ms; }
+.gh-reveal:nth-child(3) { --gh-reveal-delay: 260ms; }
+.gh-reveal:nth-child(4) { --gh-reveal-delay: 330ms; }
+.gh-reveal:nth-child(5) { --gh-reveal-delay: 400ms; }
+.gh-services-contact-strip.gh-reveal { --gh-reveal-delay: 420ms; }
+
+/* ---------- Shared layout: tiles left, text sidebar right ---------- */
+
+.gh-shop-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 216px;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.gh-shop-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 0;
+  margin: -3px -10px 0 0;
+}
+
+.gh-menu-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+}
+
+.gh-menu-heading {
+  display: block;
+  margin-bottom: 6px;
+  padding: 3px 10px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -.015em;
+  color: var(--gh-header-ink);
+  border-radius: 999px;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.gh-nav-link,
+.gh-all-products-link {
+  display: block;
+  padding: 3px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: -.003em;
+  color: var(--gh-header-label);
+  border-radius: 999px;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.gh-all-products-link {
+  margin-top: auto;
+  margin-bottom: -6px;
+  font-size: 11px;
+  letter-spacing: .015em;
+  color: var(--gh-header-muted);
+}
+
+.menu-pane--catalogues .gh-nav-link {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.menu-pane :is(.gh-nav-link, .gh-all-products-link, .gh-service-action, .gh-phone-link)[data-selected="true"] {
+  color: var(--gh-header-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.menu-pane :is(.gh-nav-link, .gh-all-products-link, .gh-menu-heading, .gh-service-action, .gh-phone-link, .gh-btn-outline):focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Four-tile widening accordion row ---------- */
+
+.gh-depts {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
+.gh-dept {
+  flex: 1 1 0;
+  min-width: 0;
+  transition: flex-grow 600ms var(--gh-menu-ease);
+}
+
+.gh-dept:nth-child(1) .gh-reveal { --gh-reveal-delay: 120ms; }
+.gh-dept:nth-child(2) .gh-reveal { --gh-reveal-delay: 190ms; }
+.gh-dept:nth-child(3) .gh-reveal { --gh-reveal-delay: 260ms; }
+.gh-dept:nth-child(4) .gh-reveal { --gh-reveal-delay: 330ms; }
+
+.gh-dept__link {
+  position: relative;
+  display: block;
+  border-radius: var(--gh-image-radius);
+}
+
+.gh-dept__thumb {
+  position: relative;
+  height: var(--gh-pane-height);
+  overflow: hidden;
+  border-radius: var(--gh-image-radius);
+  background: rgb(60 66 70 / .12);
+  outline: 1.5px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color 160ms ease;
+}
+
+.gh-dept__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.menu-pane--products .gh-dept:nth-child(1) .gh-dept__thumb img { object-position: 18% 50%; }
+.menu-pane--products .gh-dept:nth-child(2) .gh-dept__thumb img { object-position: 67% 50%; }
+.menu-pane--products .gh-dept:nth-child(3) .gh-dept__thumb img { object-position: 50% 50%; }
+.menu-pane--products .gh-dept:nth-child(4) .gh-dept__thumb img { object-position: 78% 50%; }
+
+.gh-dept__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(16 20 23 / .36);
+  pointer-events: none;
+}
+
+.gh-dept__caption {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  text-align: center;
+  color: #fff;
+  transition: opacity 300ms ease;
+}
+
+.gh-dept__title {
+  display: block;
+  max-width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -.012em;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-pane--advice .gh-dept__title {
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.gh-dept__cue {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 450ms var(--gh-menu-ease), opacity 250ms ease;
+}
+
+.gh-dept__cue > span {
+  min-height: 0;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: .04em;
+  color: rgb(255 255 255 / .86);
+  white-space: nowrap;
+}
+
+.gh-dept:focus-within {
+  flex-grow: 2.4;
+}
+
+.gh-dept:focus-within .gh-dept__cue {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.gh-depts:has(.gh-dept:focus-within) .gh-dept:not(:focus-within) .gh-dept__caption {
+  opacity: 0;
+}
+
+.gh-dept__link:focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 4px;
+}
+
+.menu-pane [data-selected="true"] > .gh-dept__thumb {
+  outline-color: var(--gh-header-ink);
+}
+
+.is-missing img {
+  display: none;
+}
+
+/* ---------- Fine-pointer hover rules ---------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .gh-nav-link:hover,
+  .gh-all-products-link:hover,
+  .gh-menu-heading:hover,
+  .gh-service-action:hover,
+  .gh-phone-link:hover {
+    background-color: var(--gh-wash);
+    color: var(--gh-header-ink);
+  }
+
+  .gh-dept:hover {
+    flex-grow: 2.4;
+  }
+
+  .gh-dept:hover .gh-dept__cue {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .gh-depts:has(.gh-dept:hover) .gh-dept:not(:hover) .gh-dept__caption {
+    opacity: 0;
+  }
+
+  .gh-depts:has(.gh-dept:hover) .gh-dept:hover .gh-dept__caption {
+    opacity: 1;
+  }
+
+  .gh-btn-outline:hover {
+    background: var(--gh-pill-bg);
+    border-color: var(--gh-pill-bg);
+    color: var(--gh-pill-ink);
+  }
+}

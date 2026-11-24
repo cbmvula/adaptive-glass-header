@@ -1,0 +1,387 @@
+/* Adaptive glass header: design tokens, stage, OKLab colour diffusion, and controls.
+   Tokens marked "JS" are updated at runtime by js/stage.js; defaults match the balanced palette
+   so the layout renders accurately before scripts start. */
+
+:root {
+  /* Geometry and motion tokens */
+  --gh-bar: 80px;
+  --gh-open-frame-height: 388px;
+  --gh-frame-edge: 24px;
+  --gh-menu-caption-line-height: 18.2px;
+  --gh-menu-card-size: min(244.5px, calc((100cqw - 350px) / 4));
+
+  /* JS: 1 from 1182px up; narrower viewports scale the verified desktop geometry proportionally. */
+  --gh-fit: 1;
+  --gh-header-ease: cubic-bezier(.23, 1, .32, 1);
+  --gh-menu-ease: cubic-bezier(.625, .05, 0, 1);
+  --gh-image-radius: 14px;
+  --gh-gutter: 24px;
+  --gh-font: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Neutral charcoal typography for the frost sheet */
+  --gh-header-ink: #22272b;
+  --gh-header-muted: #40464c;
+  --gh-header-label: #3d4349;
+
+  /* Glass material: two sheets paired with background tone.
+     Default is "frost" (light sheet, dark text, paired with dark backgrounds);
+     :root[data-tone="light"] swaps in "smoke" (grey sheet, white text, paired with bright backgrounds).
+     backdrop-filter brightness() lifts or dims what shows through so text stays legible on a thin tint. */
+  --gh-glass-tint: 247 248 249;
+  --gh-glass-alpha: .28;
+  --gh-glass-alpha-open: .36;
+  --gh-glass-filter: blur(26px) saturate(140%) brightness(2.6);
+  --gh-glass-shadow: 0 14px 36px -8px rgb(12 15 18 / .34), 0 3px 10px rgb(12 15 18 / .16);
+  --gh-glass-shadow-open: 0 28px 64px -14px rgb(12 15 18 / .4), 0 6px 16px rgb(12 15 18 / .18);
+
+  /* Controls and fills drawn on top of the glass */
+  --gh-wash: rgb(35 40 44 / .07);
+  --gh-field: rgb(35 40 44 / .08);
+  --gh-field-strong: rgb(35 40 44 / .13);
+  --gh-field-focus: rgb(255 255 255 / .6);
+  --gh-line: rgb(35 40 44 / .1);
+  --gh-outline: rgb(35 40 44 / .26);
+  --gh-placeholder: rgb(64 70 76 / .8);
+  --gh-tile: rgb(255 255 255 / .46);
+  --gh-tile-hover: rgb(255 255 255 / .74);
+  --gh-ring-gap: rgb(247 248 249);
+  --gh-error: #8f2d24;
+  --gh-solid-hover: #32383d;
+
+  /* Text and controls sitting directly on the stage */
+  --gh-stage-ink: #22272b;
+  --gh-stage-accent: #23282c;
+
+  /* Solid buttons and active pill tokens */
+  --gh-pill-bg: #23282c;
+  --gh-pill-ink: #f4f5f6;
+  --gh-pill-radius: 16px;
+
+  /* JS: stage and diffusion blob colours as "r g b" triplets (balanced stop) */
+  --gh-stage-a: 243 243 244;
+  --gh-stage-b: 217 218 221;
+  --gh-blob-1: 185 200 226;
+  --gh-blob-2: 233 192 196;
+  --gh-blob-3: 205 195 222;
+  --gh-blob-4: 241 235 226;
+  --gh-blob-5: 237 205 184;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--gh-font);
+  color: var(--gh-stage-ink);
+  background: rgb(var(--gh-stage-b));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Colour diffusion ---------- */
+
+.gh-diffusion {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgb(var(--gh-stage-a)) 0%, rgb(var(--gh-stage-b)) 100%);
+  transition: filter 700ms ease;
+}
+
+.gh-blob {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--d);
+  height: var(--d);
+  margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--c) / .84) 0%,
+    rgb(var(--c) / .64) 30%,
+    rgb(var(--c) / .32) 56%,
+    rgb(var(--c) / .09) 80%,
+    rgb(var(--c) / 0) 100%
+  );
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.gh-blob--1 { --c: var(--gh-blob-1); --x: 18%; --y: 24%; --d: 66vmax; }
+.gh-blob--2 { --c: var(--gh-blob-2); --x: 78%; --y: 18%; --d: 58vmax; }
+.gh-blob--3 { --c: var(--gh-blob-3); --x: 62%; --y: 82%; --d: 66vmax; }
+.gh-blob--4 { --c: var(--gh-blob-4); --x: 44%; --y: 46%; --d: 54vmax; }
+.gh-blob--5 { --c: var(--gh-blob-5); --x: 92%; --y: 66%; --d: 54vmax; }
+
+/* ---------- Stage ---------- */
+
+.gh-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh / var(--gh-fit));
+  min-height: calc(100dvh / var(--gh-fit));
+  padding: 40px 0 44px;
+  zoom: var(--gh-fit);
+}
+
+/* Reserves the expanded footprint so stage controls never jump or get covered. */
+.gh-slot {
+  position: relative;
+  flex: none;
+  height: var(--gh-slot-height, var(--gh-open-frame-height));
+  margin: 0 var(--gh-frame-edge);
+  container-type: inline-size;
+}
+
+.gh-float {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------- Controls: tone switcher, view link, and two native ranges ---------- */
+
+.gh-controls {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 64px;
+  margin: 40px auto 0;
+  padding: 0 var(--gh-frame-edge);
+}
+
+.gh-switches {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.gh-pager {
+  position: relative;
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 148px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgb(247 248 249 / .82);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 4px 14px rgb(22 27 31 / .12);
+}
+
+.gh-pager::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: #23282c;
+  transition: translate 450ms var(--gh-menu-ease);
+}
+
+.gh-pager:has(.gh-pager__option:last-child[aria-pressed="true"])::before {
+  translate: 100% 0;
+}
+
+.gh-pager__option {
+  appearance: none;
+  position: relative;
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #22272b;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 300ms ease;
+}
+
+.gh-pager__option[aria-pressed="true"] {
+  color: #f4f5f6;
+}
+
+.gh-pager__option:focus-visible {
+  outline: 2px solid var(--gh-stage-ink);
+  outline-offset: 2px;
+}
+
+.gh-view-link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgb(247 248 249 / .82);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 4px 14px rgb(22 27 31 / .12);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #22272b;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.gh-view-link:focus-visible {
+  outline: 2px solid var(--gh-stage-ink);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gh-view-link:hover {
+    background: rgb(255 255 255 / .96);
+  }
+}
+
+.gh-control {
+  display: grid;
+  grid-template-columns: auto 240px;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 6px;
+}
+
+.gh-control__label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--gh-stage-ink);
+}
+
+.gh-control__range {
+  width: 240px;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--gh-stage-accent);
+  cursor: pointer;
+}
+
+.gh-control__range:focus-visible {
+  outline: 2px solid var(--gh-stage-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.gh-control__range:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.gh-control__scale {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--gh-stage-ink);
+}
+
+.gh-controls__note {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--gh-stage-ink);
+}
+
+/* ---------- Tone themes ---------- */
+
+/* Dark backdrop: dims the colour field to 30% so the frost sheet lifts cleanly off it. */
+:root[data-tone="dark"] .gh-diffusion {
+  filter: brightness(.3) saturate(1.6);
+}
+
+:root[data-tone="dark"] {
+  --gh-stage-ink: #f4f5f6;
+  --gh-stage-accent: #f4f5f6;
+}
+
+:root[data-tone="dark"] body {
+  background: #2b2b2d;
+}
+
+/* Bright backdrop: swaps in the "smoke" sheet (grey glass + white typography). */
+:root[data-tone="light"] {
+  --gh-header-ink: #ffffff;
+  --gh-header-muted: #eef0f2;
+  --gh-header-label: #f4f5f6;
+  --gh-glass-tint: 84 88 94;
+  --gh-glass-alpha: .18;
+  --gh-glass-alpha-open: .24;
+  --gh-glass-filter: blur(26px) saturate(140%) brightness(.62);
+  --gh-glass-shadow: 0 14px 36px -8px rgb(22 27 31 / .26), 0 3px 10px rgb(22 27 31 / .1);
+  --gh-glass-shadow-open: 0 28px 64px -14px rgb(22 27 31 / .32), 0 6px 16px rgb(22 27 31 / .12);
+  --gh-wash: rgb(255 255 255 / .14);
+  --gh-field: rgb(255 255 255 / .13);
+  --gh-field-strong: rgb(255 255 255 / .2);
+  --gh-field-focus: rgb(255 255 255 / .22);
+  --gh-line: rgb(255 255 255 / .2);
+  --gh-outline: rgb(255 255 255 / .42);
+  --gh-placeholder: rgb(255 255 255 / .68);
+  --gh-tile: rgb(255 255 255 / .84);
+  --gh-tile-hover: rgb(255 255 255 / .94);
+  --gh-ring-gap: rgb(84 88 94);
+  --gh-error: #ffc1b6;
+  --gh-solid-hover: #ffffff;
+  --gh-pill-bg: #f4f5f6;
+  --gh-pill-ink: #23282c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-blob {
+    will-change: auto;
+  }
+
+  .gh-diffusion,
+  .gh-pager::before,
+  .gh-pager__option {
+    transition-duration: 0ms;
+  }
+}

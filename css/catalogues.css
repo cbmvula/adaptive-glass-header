@@ -1,0 +1,42 @@
+/* Catalogue pane: wide 16:9 scenes that uncover sideways when a tile widens,
+   maker wordmarks balanced by ink area rather than raw height, and per-tile contrast scrims. */
+
+.menu-pane--catalogues .gh-dept__thumb img {
+  object-position: var(--gh-anchor, 15%) 50%;
+}
+
+.menu-pane--catalogues [data-catalogue="kron"] { --gh-anchor: 15%; }
+.menu-pane--catalogues [data-catalogue="velde"] { --gh-anchor: 43%; }
+.menu-pane--catalogues [data-catalogue="sora"] { --gh-anchor: 10%; }
+.menu-pane--catalogues [data-catalogue="lind"] { --gh-anchor: 12%; }
+
+.menu-pane--catalogues .gh-dept__title {
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.gh-dept__logo {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: var(--gh-logo, 22px);
+  object-fit: contain;
+  filter: drop-shadow(0 1px 6px rgb(16 20 23 / .35));
+}
+
+/* Sized by visual ink area so heavy bold marks do not shout over lighter wordmarks. */
+.menu-pane--catalogues [data-catalogue="kron"] { --gh-logo: 20px; }
+.menu-pane--catalogues [data-catalogue="velde"] { --gh-logo: 18px; }
+.menu-pane--catalogues [data-catalogue="sora"] { --gh-logo: 26px; }
+.menu-pane--catalogues [data-catalogue="lind"] { --gh-logo: 17px; }
+
+/* Per-tile scrim tuned to hold white wordmarks above 3:1 contrast on light and dark scenes alike. */
+.menu-pane--catalogues .gh-dept__thumb::after {
+  background: rgb(16 20 23 / var(--gh-shade, .36));
+}
+
+.menu-pane--catalogues [data-catalogue="kron"] { --gh-shade: .46; }
+.menu-pane--catalogues [data-catalogue="velde"] { --gh-shade: .42; }
+.menu-pane--catalogues [data-catalogue="sora"] { --gh-shade: .42; }
+.menu-pane--catalogues [data-catalogue="lind"] { --gh-shade: .34; }

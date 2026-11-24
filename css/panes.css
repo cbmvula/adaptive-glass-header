@@ -1,0 +1,488 @@
+/* Typography (Geist variable font, SIL OFL), Services 5-column preview swap,
+   Search bar clip-path expansion, Account demo pane, and Cart pane. */
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("../assets/fonts/geist-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url("../assets/fonts/geist-latin-ext-var.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  --gh-inset: calc(var(--gh-gutter) + 12px);
+  --gh-pane-height: 284px;
+  --gh-search-end: calc(var(--gh-gutter) + 88px);
+  --gh-field-height: 40px;
+}
+
+body,
+.gh-shell {
+  font-family: var(--gh-font);
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Services: 5 columns with live :has() preview swap ---------- */
+
+.gh-services5 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr) auto;
+  column-gap: 28px;
+  row-gap: 14px;
+  height: var(--gh-pane-height);
+}
+
+.gh-service-visual {
+  position: relative;
+  grid-row: 1 / span 2;
+  overflow: hidden;
+  border-radius: var(--gh-image-radius);
+  background: rgb(60 66 70 / .12);
+}
+
+.gh-service-frame {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  scale: 1.06;
+  transition: opacity 450ms ease, scale 900ms var(--gh-menu-ease);
+}
+
+.gh-service-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gh-service-frame::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(180deg, rgb(16 20 23 / 0), rgb(16 20 23 / .55));
+}
+
+.gh-service-frame figcaption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  color: #fff;
+}
+
+.gh-service-frame[data-service="01"] {
+  opacity: 1;
+  scale: 1;
+}
+
+.gh-services5:has(.gh-service-card:focus-within) .gh-service-frame {
+  opacity: 0;
+  scale: 1.06;
+}
+
+.gh-services5:has(.gh-service-card[data-service="01"]:focus-within) .gh-service-frame[data-service="01"],
+.gh-services5:has(.gh-service-card[data-service="02"]:focus-within) .gh-service-frame[data-service="02"],
+.gh-services5:has(.gh-service-card[data-service="03"]:focus-within) .gh-service-frame[data-service="03"],
+.gh-services5:has(.gh-service-card[data-service="04"]:focus-within) .gh-service-frame[data-service="04"] {
+  opacity: 1;
+  scale: 1;
+}
+
+.gh-service-card {
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding-top: 4px;
+  transition: opacity 300ms ease;
+}
+
+.gh-service-num {
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--gh-header-muted);
+}
+
+.gh-service-card h3 {
+  margin: 4px 0 0;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: -.02em;
+  color: var(--gh-header-ink);
+  text-wrap: balance;
+}
+
+.gh-service-card p {
+  margin: auto 0;
+  padding: 12px 0;
+  font-size: 12.5px;
+  line-height: 19px;
+  color: var(--gh-header-muted);
+}
+
+.gh-service-action {
+  display: inline-block;
+  margin-left: -10px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 17px;
+  color: var(--gh-header-ink);
+  border-radius: 999px;
+  transition: background-color 160ms ease;
+}
+
+.gh-services-contact-strip {
+  grid-column: 2 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--gh-line);
+}
+
+.gh-contact-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12.5px;
+}
+
+.gh-contact-label {
+  color: var(--gh-header-muted);
+}
+
+.gh-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: -4px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--gh-header-ink);
+  transition: background-color 160ms ease;
+}
+
+.gh-phone-link svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gh-phone-link small {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gh-header-muted);
+}
+
+.gh-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid var(--gh-outline);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gh-header-ink);
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+/* ---------- Bar search: grows out of the search icon via clip-path ---------- */
+
+.gh-barsearch {
+  position: absolute;
+  top: calc(50% - var(--gh-field-height) / 2);
+  left: var(--gh-gutter);
+  right: var(--gh-search-end);
+  z-index: 2;
+  height: var(--gh-field-height);
+  margin: 0;
+  border-radius: calc(var(--gh-field-height) / 2);
+  background: var(--gh-field);
+  opacity: 0;
+  visibility: hidden;
+  clip-path: inset(0 0 0 calc(100% - var(--gh-field-height)) round calc(var(--gh-field-height) / 2));
+  transition:
+    clip-path 450ms var(--gh-menu-ease),
+    opacity 160ms ease 200ms,
+    background-color 180ms ease,
+    visibility 0s linear 450ms;
+}
+
+.gh-header.is-open[data-section="search"] .gh-barsearch {
+  opacity: 1;
+  visibility: visible;
+  clip-path: inset(0 round calc(var(--gh-field-height) / 2));
+  transition:
+    clip-path 600ms var(--gh-menu-ease),
+    opacity 120ms ease,
+    background-color 180ms ease,
+    visibility 0s linear 0s;
+}
+
+.gh-barsearch:focus-within {
+  background: var(--gh-field-strong);
+}
+
+.gh-barsearch__input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 calc(var(--gh-field-height) + 8px) 0 12px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -.006em;
+  color: var(--gh-header-ink);
+  outline: none;
+}
+
+.gh-barsearch__input::placeholder {
+  color: var(--gh-placeholder);
+}
+
+.gh-barsearch__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.gh-barsearch:has(.gh-barsearch__input:focus-visible) {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 2px;
+}
+
+.desktop-nav,
+.brand {
+  transition: opacity 220ms ease 160ms, visibility 0s linear 0s;
+}
+
+.header-actions > :is(.account-link, .cart-link) {
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    scale 160ms var(--gh-header-ease),
+    translate 240ms var(--gh-header-ease),
+    opacity 220ms ease 160ms,
+    visibility 0s linear 0s;
+}
+
+.gh-header.is-open[data-section="search"] :is(.desktop-nav, .brand),
+.gh-header.is-open[data-section="search"] .header-actions > :is(.account-link, .cart-link) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease, visibility 0s linear 120ms;
+}
+
+.gh-header.is-open[data-section="search"] .header-actions > .icon-button.desktop-search {
+  translate: 0 0;
+}
+
+/* ---------- Search, Account, and Cart panes ---------- */
+
+.gh-pill {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--gh-outline);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 180ms ease, scale 160ms var(--gh-header-ease);
+}
+
+.gh-pill--solid {
+  background: var(--gh-pill-bg);
+  box-shadow: none;
+  color: var(--gh-pill-ink);
+}
+
+.gh-pill:active {
+  scale: .97;
+}
+
+.gh-pill:focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 2px;
+}
+
+.gh-search__heading {
+  margin: 0 0 6px;
+  padding: 0 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: .02em;
+  color: var(--gh-header-muted);
+}
+
+.gh-search__results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gh-search__hit {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gh-search__group {
+  flex: none;
+  font-size: 11px;
+  color: var(--gh-header-muted);
+}
+
+.gh-search__status {
+  margin: 0 0 8px;
+  padding: 0 10px;
+  font-size: 11.5px;
+  color: var(--gh-header-muted);
+}
+
+:where(button).gh-query {
+  appearance: none;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gh-feature {
+  position: relative;
+  height: var(--gh-pane-height);
+  overflow: hidden;
+  border-radius: var(--gh-image-radius);
+  background: rgb(60 66 70 / .12);
+}
+
+.gh-feature img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+.gh-feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(16 20 23 / .66), rgb(16 20 23 / .22) 62%, rgb(16 20 23 / 0));
+}
+
+.gh-feature__copy {
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+  z-index: 1;
+  max-width: 360px;
+  color: #fff;
+}
+
+.gh-feature__copy h3 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -.02em;
+}
+
+.gh-feature__copy p {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 19px;
+  color: rgb(255 255 255 / .86);
+}
+
+.gh-feature__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.gh-feature .gh-pill {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .6);
+  color: #fff;
+}
+
+.gh-feature .gh-pill--solid {
+  background: #fff;
+  box-shadow: none;
+  color: #22272b;
+}
+
+.gh-cart__note {
+  padding: 0 10px;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--gh-header-muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gh-services5:has(.gh-service-card:hover) .gh-service-frame {
+    opacity: 0;
+    scale: 1.06;
+  }
+
+  .gh-services5:has(.gh-service-card[data-service="01"]:hover) .gh-service-frame[data-service="01"],
+  .gh-services5:has(.gh-service-card[data-service="02"]:hover) .gh-service-frame[data-service="02"],
+  .gh-services5:has(.gh-service-card[data-service="03"]:hover) .gh-service-frame[data-service="03"],
+  .gh-services5:has(.gh-service-card[data-service="04"]:hover) .gh-service-frame[data-service="04"] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .gh-services5:has(.gh-service-card:hover) .gh-service-card:not(:hover) {
+    opacity: .5;
+  }
+
+  .gh-pill:not(.gh-pill--solid):hover {
+    background: var(--gh-wash);
+  }
+
+  .gh-feature .gh-pill:not(.gh-pill--solid):hover {
+    background: rgb(255 255 255 / .16);
+  }
+}

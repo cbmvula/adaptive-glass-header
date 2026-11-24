@@ -1,0 +1,319 @@
+/* Desktop header shell: one continuous glass body from 80px pill to 388px mega-menu,
+   top bar grid, sliding clipped nav highlight, and icon action shift. */
+
+.gh-shell {
+  color: var(--gh-header-ink);
+}
+
+:where(.gh-shell) a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(.gh-shell) button {
+  font: inherit;
+  color: inherit;
+}
+
+:where(.gh-shell) :is(a, button) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:where(.gh-shell) img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- Continuous glass body ---------- */
+
+.gh-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--gh-bar);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 40px;
+  background-color: rgb(var(--gh-glass-tint) / var(--gh-glass-alpha));
+  -webkit-backdrop-filter: var(--gh-glass-filter);
+  backdrop-filter: var(--gh-glass-filter);
+  box-shadow: var(--gh-glass-shadow);
+  transition:
+    height 450ms var(--gh-menu-ease),
+    border-radius 450ms var(--gh-menu-ease),
+    background-color 300ms ease,
+    box-shadow 450ms var(--gh-menu-ease);
+}
+
+.gh-header.is-open {
+  height: var(--gh-open-frame-height);
+  border-radius: 40px;
+  background-color: rgb(var(--gh-glass-tint) / var(--gh-glass-alpha-open));
+  box-shadow: var(--gh-glass-shadow-open);
+  transition:
+    height 600ms var(--gh-menu-ease),
+    border-radius 600ms var(--gh-menu-ease),
+    background-color 400ms ease,
+    box-shadow 600ms var(--gh-menu-ease);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .gh-header,
+  .gh-header.is-open {
+    background-color: rgb(248 248 248 / .92);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .gh-header,
+  .gh-header.is-open {
+    background-color: rgb(248 248 248 / .96);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* ---------- Bar ---------- */
+
+.header-bar {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  height: var(--gh-bar);
+  padding: 0 var(--gh-gutter);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ---------- Navigation labels and sliding highlight ---------- */
+
+.desktop-nav {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 0;
+  border-radius: 24px;
+}
+
+.gh-menu-entry {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.gh-menu-destination,
+.gh-menu-ghost {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 450;
+  line-height: 18px;
+  letter-spacing: -.003em;
+  white-space: nowrap;
+  border-radius: var(--gh-pill-radius);
+}
+
+.gh-menu-destination {
+  appearance: none;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: var(--gh-header-label);
+  cursor: pointer;
+}
+
+.gh-menu-destination:focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 2px;
+}
+
+/* Duplicate nav layer clipped to the active entry.
+   Animating clip-path keeps every label sharp as the highlight slides across items. */
+.desktop-nav-pill {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 0;
+  background: var(--gh-wash);
+  color: var(--gh-header-ink);
+  pointer-events: none;
+  opacity: 0;
+  clip-path: inset(4px var(--gh-pill-r, 0px) 4px var(--gh-pill-l, 0px) round var(--gh-pill-radius));
+  transition:
+    clip-path 450ms var(--gh-menu-ease),
+    opacity 160ms ease;
+}
+
+.desktop-nav.has-active-pill .desktop-nav-pill {
+  opacity: 1;
+}
+
+.desktop-nav[data-pill-snap] .desktop-nav-pill {
+  transition-property: opacity;
+}
+
+/* ---------- Brand ---------- */
+
+.brand {
+  grid-column: 2;
+  justify-self: center;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  border-radius: 14px;
+}
+
+.brand-logo {
+  width: 118px;
+  height: 38px;
+  object-fit: contain;
+  transition: scale 200ms var(--gh-header-ease);
+}
+
+.brand:active .brand-logo {
+  scale: .97;
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 2px;
+}
+
+/* ---------- Actions ---------- */
+
+.header-actions {
+  grid-column: 3;
+  justify-self: end;
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gh-header-label);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    scale 160ms var(--gh-header-ease),
+    translate 240ms var(--gh-header-ease);
+}
+
+.icon-button svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-button:active {
+  scale: .94;
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--gh-header-ink);
+  outline-offset: 2px;
+}
+
+.icon-button[aria-expanded="true"] {
+  background: var(--gh-wash);
+  color: var(--gh-header-ink);
+}
+
+.icon-button[data-selected="true"] {
+  background: var(--gh-pill-bg);
+  color: var(--gh-pill-ink);
+}
+
+/* When open, the close button takes the trailing slot and the three icons shift left by one slot. */
+.gh-header.is-open .header-actions > .icon-button:not(.header-close) {
+  translate: -44px 0;
+}
+
+.header-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  scale: .86;
+  transition:
+    opacity 120ms ease,
+    scale 160ms var(--gh-header-ease),
+    background-color 180ms ease,
+    visibility 0s linear 120ms;
+}
+
+.gh-header.is-open .header-close {
+  opacity: 1;
+  visibility: visible;
+  scale: 1;
+  transition:
+    opacity 180ms ease 60ms,
+    scale 220ms var(--gh-header-ease) 60ms,
+    background-color 180ms ease,
+    visibility 0s linear 0s;
+}
+
+.gh-header.is-open .header-close:active {
+  scale: .94;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-button:not([data-selected="true"]):hover {
+    background: var(--gh-wash);
+  }
+}
+
+/* ---------- Motion overrides ---------- */
+
+.gh-header[data-motion="instant"],
+.gh-header[data-motion="instant"] * {
+  transition-duration: 0ms !important;
+  transition-delay: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-header,
+  .gh-header * {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+  }
+}
